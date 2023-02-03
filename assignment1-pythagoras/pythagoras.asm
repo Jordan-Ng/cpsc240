@@ -12,7 +12,7 @@ segment .data
   prompt_message_2 db "Enter the length of the second side of the triangle: ",0
   double_float db "%lf",0
   feedback db "Negative values not allowed. Try again: ", 0
-  confirmation db "Thank you. you entered two sides: %1.6lf and %1.6lf", 0x0a, 0
+  confirmation db 0x0a, "Thank you. you entered two sides: %1.6lf and %1.6lf", 0x0a, 0
   result db "The length of the hypotenuse is %1.6lf", 0x0a, 0
 
 segment .text

@@ -11,7 +11,7 @@ int main(){
   double length;
   length = hypotenuse();
 
-  std::cout << "The main file received this number:  " << length << ", and will keep it for now.\n"
+  std::cout << "\nThe main file received this number:  " << length << ", and will keep it for now.\n"
 	<< "We hoped you enjoyed your right angles. Have a good day. A zero will be sent to your operating system\n";
 
  return 0;
