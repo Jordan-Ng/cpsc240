@@ -43,7 +43,6 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
-#include <iomanip>
 
 extern "C" double hypotenuse();
 
