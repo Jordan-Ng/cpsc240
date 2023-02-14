@@ -4,6 +4,7 @@ extern printf
 
 segment .data
     float_form db "%lf", 0 
+    int_form db "%i", 0
 
 segment .text
 inputArray:
@@ -32,7 +33,6 @@ inputArray:
     mov r15, 0
 
 scan:
-
     ; scan user input
     push qword 0
     mov rax, 0
