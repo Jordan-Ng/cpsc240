@@ -25,7 +25,7 @@ exceeded_array_capacity_feedback db "Please enter an integer less than or equal 
 string_format db "%s", 0
 
 sort_notification db 0x0a, "The array is now being sorted.", 0x0a, 0
-updated_array_notification db "Here is the updated array.", 0x0a, 0
+updated_array_notification db 0x0a, "Here is the updated array.", 0x0a, 0
 normalized_array_notification db 0x0a, "The random numbers will be normalized. Here is the normalized array.", 0x0a, 0
 
 exit_message db 0x0a, "Good bye %s. You are welcome anytime", 0x0a, 0 
@@ -113,58 +113,46 @@ input_array_size:
     call scanf
 
     ; try to convert input to int with atoi
-    ; push qword 0
     mov rax, 0 
     mov rdi, array_size
     call atoi
     mov r13, rax                ; array size will be stored in r13
-    ; pop rax
 
     ; compare converted value, jump to labels as necessary
-    ; push qword 0
     cmp r13, 100
     jg exceeded_array_capacity  ; input exceeding defined capacity
     cmp r13, 0                  
     js invalid_array_size       ; negative values
     je invalid_array_size       ; invalid conversion
     jg end_input_array_size_loop
-    ; pop rax
 
 invalid_array_size: 
     ; print invalid input feedback message
-    ; push qword 0
     mov rax, 0
     mov rdi, invalid_array_size_feedback
     call printf
     jmp input_array_size
-    ; pop rax
 
 exceeded_array_capacity:
     ; print exceeded array capacity message
-    ; push qword 0
     mov rax, 0 
     mov rdi, exceeded_array_capacity_feedback
     call printf
     jmp input_array_size
-    ; pop rax
 
 end_input_array_size_loop:
     ; print array size confirmation message
-    ; push qword 0
     mov rax, 0
     mov rdi, array_size_confirmation
     mov rsi, array_size
     call printf
-    ; pop rax
 
 ; =============== generate random numbers for array ======================
     ; delegate task to fill_random_array.asm to fill array with 64 bit random numbers
-    ; push qword 0
     mov rax, 0
     mov rdi, myArray
     mov rsi, r13
     call fillRandomArray
-    ; pop rax
 
     push qword 0
     mov rax, 0
@@ -175,24 +163,18 @@ end_input_array_size_loop:
 
 ; =============== sorting array with qsort ===========================
     ; notify user that array is now being sorted
-    ; push qword 0
     mov rax, 0
     mov rdi, sort_notification
     call printf
-    ; pop rax
 
-    ; push qword 0
     mov rax, 0
     mov rdi, myArray
     mov rsi, r13
     call quickSort
-    ; pop rax
 
-    ; push qword 0
     mov rax, 0
     mov rdi, updated_array_notification
     call printf
-    ; pop rax
 
     push qword 0
     mov rax, 0
@@ -200,13 +182,12 @@ end_input_array_size_loop:
     mov rsi, r13
     call printArray
     pop rax
+
 ; =============== normalizing array ================================
     ; print normalized array notification
-    ; push qword 0
     mov rax, 0
     mov rdi, normalized_array_notification
     call printf
-    ; pop rax
 
     mov r15, 0 
 
@@ -214,7 +195,6 @@ normalize:
     cmp r15, r13
     je printNormalizedArray
 
-    ; push qword 0
     mov rcx, 1023
     shl rcx, 52
     
@@ -224,12 +204,34 @@ normalize:
 
     or rdx, rcx
     mov [myArray + r15*8], rdx
-    ; pop rax
 
     inc r15
     jmp normalize
 
 printNormalizedArray:
+    push qword 0
+    mov rax, 0
+    mov rdi, myArray
+    mov rsi, r13
+    call printArray
+    pop rax
+
+; =============== sorting normalized array ================================
+    ; notify user that array is now being sorted
+    mov rax, 0
+    mov rdi, sort_notification
+    call printf
+
+    mov rax, 0
+    mov rdi, myArray
+    mov rsi, r13
+    call quickSort
+
+; =============== printing sorted normalized array ================================
+    mov rax, 0
+    mov rdi, updated_array_notification
+    call printf
+
     push qword 0
     mov rax, 0
     mov rdi, myArray
